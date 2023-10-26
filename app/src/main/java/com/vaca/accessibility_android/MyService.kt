@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.RequiresApi
+import com.vaca.accessibility_android.MyService.Companion.clickByNode
 
 
 class MyService : AccessibilityService() {
@@ -54,7 +55,7 @@ class MyService : AccessibilityService() {
                     list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
                     if (null != list6) {
                         for (info in list6!!) {
-                       //     Log.e(TAG, info.toString())
+                            Log.e(TAG, info.toString())
                             clickByNode(this, info.parent)
                         }
                     }
