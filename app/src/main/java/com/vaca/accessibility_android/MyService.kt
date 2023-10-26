@@ -47,7 +47,7 @@ class MyService : AccessibilityService() {
         val className = event.className.toString()
         when (eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED跳转到新的页面")
+               // Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED跳转到新的页面")
                 if (className == "com.ss.android.ugc.aweme.main.MainActivity") {
                     list8 =
                         rootNodeInfo.findAccessibilityNodeInfosByViewId("com.ss.android.ugc.aweme:id/a-5")
@@ -60,7 +60,7 @@ class MyService : AccessibilityService() {
                         rootNodeInfo.findAccessibilityNodeInfosByViewId("com.ss.android.ugc.aweme:id/hox")
                     if (null != list2) {
                         for (info in list2!!) {
-                            Log.e(TAG, info.toString())
+//                            Log.e(TAG, info.toString())
                             info.parent.parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                         }
                     }
@@ -83,9 +83,9 @@ class MyService : AccessibilityService() {
                         }
                     }
                 }
-                Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED某个view的内容发生的变化")
+               // Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED某个view的内容发生的变化")
                 Log.e(TAG, "onServiceConnected:" + "实现辅助功能")
-                Log.d("TAG", "packageName = $packageName, className = $className")
+                Log.d("vaca", "packageName = $packageName, className = $className")
                 if (className == "com.lynx.tasm.behavior.KeyboardMonitor") {
                     Log.e(TAG, "执行了搜索按钮")
                     list5 =
@@ -100,14 +100,14 @@ class MyService : AccessibilityService() {
                     list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
                     if (null != list6) {
                         for (info in list6!!) {
-                            Log.e(TAG, info.toString())
+                            //Log.e(TAG, info.toString())
                             clickByNode(this, info.parent)
                         }
                     }
                     list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
                     if (null != list7) {
                         for (info in list7!!) {
-                            Log.e(TAG, info.toString())
+                           // Log.e(TAG, info.toString())
                         }
                     }
                 }
@@ -137,14 +137,14 @@ class MyService : AccessibilityService() {
                     list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
                     if (null != list6) {
                         for (info in list6!!) {
-                            Log.e(TAG, info.toString())
+                          //  Log.e(TAG, info.toString())
                             clickByNode(this, info.parent)
                         }
                     }
                     list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
                     if (null != list7) {
                         for (info in list7!!) {
-                            Log.e(TAG, info.toString())
+                       //     Log.e(TAG, info.toString())
                         }
                     }
                 }
@@ -170,14 +170,14 @@ class MyService : AccessibilityService() {
                     list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
                     if (null != list6) {
                         for (info in list6!!) {
-                            Log.e(TAG, info.toString())
+                       //     Log.e(TAG, info.toString())
                             clickByNode(this, info.parent)
                         }
                     }
                     list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
                     if (null != list7) {
                         for (info in list7!!) {
-                            Log.e(TAG, info.toString())
+                       //     Log.e(TAG, info.toString())
                         }
                     }
                 }
@@ -186,9 +186,9 @@ class MyService : AccessibilityService() {
                 val list2 = rootNode.findAccessibilityNodeInfosByViewId("match_id")
                 //log all node info
                 //log all node info
-                for(i in 0 until rootNode.childCount){
-                    Log.e(TAG, "onAccessibilityEvent: " + rootNode.getChild(i).toString())
-                }
+//                for(i in 0 until rootNode.childCount){
+//                    Log.e(TAG, "onAccessibilityEvent: " + rootNode.getChild(i).toString())
+//                }
 //                val infoNode = rootNode.getChild(index)
             }
         }
