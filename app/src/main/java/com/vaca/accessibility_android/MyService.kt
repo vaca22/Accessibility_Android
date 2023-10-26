@@ -25,9 +25,7 @@ class MyService : AccessibilityService() {
     var list6: List<AccessibilityNodeInfo>? = null
     var list7: List<AccessibilityNodeInfo>? = null
     var list8: List<AccessibilityNodeInfo>? = null
-    var list9: List<AccessibilityNodeInfo>? = null
-    var list10: List<AccessibilityNodeInfo>? = null
-    var list11: List<AccessibilityNodeInfo>? = null
+
     var st = ""
 
     //初始化
@@ -122,8 +120,8 @@ class MyService : AccessibilityService() {
 //                val infoNode = rootNode.getChild(index)
             }
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED某个view的内容发生的变化")
-                Log.e(TAG, "onServiceConnected:" + "实现辅助功能")
+//                Log.e(TAG, "AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED某个view的内容发生的变化")
+//                Log.e(TAG, "onServiceConnected:" + "实现辅助功能")
                 Log.d("TAG", "packageName = $packageName, className = $className")
                 if (className == "com.lynx.tasm.behavior.KeyboardMonitor") {
                     Log.e(TAG, "执行了搜索按钮")
@@ -186,6 +184,11 @@ class MyService : AccessibilityService() {
                 val rootNode = rootInActiveWindow
                 val list1 = rootNode.findAccessibilityNodeInfosByText("match_text")
                 val list2 = rootNode.findAccessibilityNodeInfosByViewId("match_id")
+                //log all node info
+                //log all node info
+                for(i in 0 until rootNode.childCount){
+                    Log.e(TAG, "onAccessibilityEvent: " + rootNode.getChild(i).toString())
+                }
 //                val infoNode = rootNode.getChild(index)
             }
         }
@@ -232,7 +235,7 @@ class MyService : AccessibilityService() {
             nodeInfo.getBoundsInScreen(rect)
             val x = rect.centerX()
             val y = rect.centerY()
-            Log.e("acc_", "要点击的像素点在手机屏幕位置::" + rect.centerX() + " " + rect.centerY())
+            Log.e("vaca", "要点击的像素点在手机屏幕位置::" + rect.centerX() + " " + rect.centerY())
             val point = Point(x, y)
             val builder = GestureDescription.Builder()
             val path = Path()
@@ -260,12 +263,3 @@ class MyService : AccessibilityService() {
     }
 }
 
-internal class MyCallBack : AccessibilityService.GestureResultCallback() {
-    override fun onCompleted(gestureDescription: GestureDescription) {
-        super.onCompleted(gestureDescription)
-    }
-
-    override fun onCancelled(gestureDescription: GestureDescription) {
-        super.onCancelled(gestureDescription)
-    }
-}
