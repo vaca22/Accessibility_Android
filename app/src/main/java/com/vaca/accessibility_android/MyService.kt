@@ -19,15 +19,9 @@ import com.vaca.accessibility_android.MyService.Companion.clickByNode
 
 class MyService : AccessibilityService() {
     private val TAG = "vaca"
-    var list2: List<AccessibilityNodeInfo>? = null
-    var list3: List<AccessibilityNodeInfo>? = null
-    var list4: List<AccessibilityNodeInfo>? = null
-    var list5: List<AccessibilityNodeInfo>? = null
-    var list6: List<AccessibilityNodeInfo>? = null
-    var list7: List<AccessibilityNodeInfo>? = null
-    var list8: List<AccessibilityNodeInfo>? = null
 
-    var st = ""
+
+
 
     //初始化
     override fun onServiceConnected() {
@@ -47,24 +41,30 @@ class MyService : AccessibilityService() {
         val packageName = event.packageName.toString()
         val className = event.className.toString()
         when (eventType) {
-
             AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
-                Log.e(TAG, "TYPE_VIEW_SCROLLED")
+                val list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
+                if (null != list7) {
+                    Log.e("vaca", "list7.size = " + list7.size)
+                    val size= list7.size
+                    for(k in 0 until size){
+                        clickByNode(this, list7[k])
+                        Thread.sleep(1000)
+                    }
+                }
+
                 Log.d("TAG", "packageName = $packageName, className = $className")
                 if (className == "androidx.recyclerview.widget.RecyclerView") {
-                    list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
+                    val list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
                     if (null != list6) {
-                        for (info in list6!!) {
-                            Log.e(TAG, info.toString())
-                            clickByNode(this, info.parent)
+                        Log.e("vaca", "list6.size = " + list6.size)
+                        val size= list6.size
+                        if(size>0){
+                            clickByNode(this, list6[0].parent)
                         }
+                        return
                     }
-                    list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
-                    if (null != list7) {
-                        for (info in list7!!) {
-                       //     Log.e(TAG, info.toString())
-                        }
-                    }
+
+
                 }
             }
         }
@@ -94,12 +94,7 @@ class MyService : AccessibilityService() {
     companion object {
         var mService: MyService? = null
 
-        /**
-         * 实现位置坐标点击
-         * @param service
-         * @param nodeInfo
-         * @return
-         */
+
         fun clickByNode(
             service: AccessibilityService?,
             nodeInfo: AccessibilityNodeInfo?
@@ -111,7 +106,10 @@ class MyService : AccessibilityService() {
             nodeInfo.getBoundsInScreen(rect)
             val x = rect.centerX()
             val y = rect.centerY()
-            Log.e("vaca", "要点击的像素点在手机屏幕位置::" + rect.centerX() + " " + rect.centerY())
+            if(x<500){
+                return false
+            }
+            Log.e("vaca", "x = $x, y = $y")
             val point = Point(x, y)
             val builder = GestureDescription.Builder()
             val path = Path()
@@ -121,19 +119,15 @@ class MyService : AccessibilityService() {
             return service.dispatchGesture(gesture, object : GestureResultCallback() {
                 override fun onCompleted(gestureDescription: GestureDescription) {
                     super.onCompleted(gestureDescription)
-                    //                LogUtil.d(TAG, "dispatchGesture onCompleted: 完成...");
                 }
 
                 override fun onCancelled(gestureDescription: GestureDescription) {
                     super.onCancelled(gestureDescription)
-                    //                LogUtil.d(TAG, "dispatchGesture onCancelled: 取消...");
+
                 }
             }, null)
         }
-        // 公共方法
-        /**
-         * 辅助功能是否启动
-         */
+
         val isStart: Boolean
             get() = mService != null
     }
