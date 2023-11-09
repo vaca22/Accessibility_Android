@@ -38,13 +38,15 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.start.setOnClickListener {
-            val exist1 = checkAppInstalled(this@MainActivity, "com.tencent.mm")
-            if (exist1) {
-                val intent = Intent()
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK.or(FLAG_ACTIVITY_CLEAR_TASK)
+            Log.e("vaca", "onCreate: 开始")
+         //"com.tencent.mm")
+         //start third app by package name
+            val intent = packageManager.getLaunchIntentForPackage("com.tencent.mm")
+            if (intent != null) {
+                intent.flags = FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             } else {
-                Toast.makeText(this@MainActivity, "请先安装此应用", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "没有安装", Toast.LENGTH_LONG).show()
             }
         }
     }
