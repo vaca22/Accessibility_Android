@@ -2,6 +2,7 @@ package com.vaca.accessibility_android
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -37,11 +38,10 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.start.setOnClickListener {
-            val exist1 = checkAppInstalled(this@MainActivity, "com.ss.android.ugc.aweme")
+            val exist1 = checkAppInstalled(this@MainActivity, "com.tencent.mm")
             if (exist1) {
                 val intent = Intent()
-                intent.data = Uri.parse("snssdk1128://feed?refer=web&gd_label=1")
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK.or(FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             } else {
                 Toast.makeText(this@MainActivity, "请先安装此应用", Toast.LENGTH_SHORT).show()

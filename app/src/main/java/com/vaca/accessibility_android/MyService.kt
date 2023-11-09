@@ -40,34 +40,7 @@ class MyService : AccessibilityService() {
         val eventType = event.eventType
         val packageName = event.packageName.toString()
         val className = event.className.toString()
-        when (eventType) {
-            AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
-                val list7 = rootNodeInfo.findAccessibilityNodeInfosByText("关注")
-                if (null != list7) {
-                    Log.e("vaca", "list7.size = " + list7.size)
-                    val size= list7.size
-                    for(k in 0 until size){
-                        clickByNode(this, list7[k])
-                        Thread.sleep(1000)
-                    }
-                }
-
-                Log.d("TAG", "packageName = $packageName, className = $className")
-                if (className == "androidx.recyclerview.widget.RecyclerView") {
-                    val list6 = rootNodeInfo.findAccessibilityNodeInfosByText("用户")
-                    if (null != list6) {
-                        Log.e("vaca", "list6.size = " + list6.size)
-                        val size= list6.size
-                        if(size>0){
-                            clickByNode(this, list6[0].parent)
-                        }
-                        return
-                    }
-
-
-                }
-            }
-        }
+        Log.e(TAG, "onAccessibilityEvent: eventType = $eventType")
     }
 
     override fun onInterrupt() {
