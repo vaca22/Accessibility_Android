@@ -1,6 +1,7 @@
 package com.haohuoke.homeindexmodule.ui.accessibility.step
 
 
+import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.widget.Toast
 import com.haohuoke.core.ext.*
@@ -20,7 +21,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             val intent =
                 MainApp.application.packageManager.getLaunchIntentForPackage("com.tencent.mm")
             if (intent != null) {
-                intent.flags = FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 MainApp.application.startActivity(intent)
             } else {
                 Toast.makeText( MainApp.application, "没有安装", Toast.LENGTH_LONG).show()
