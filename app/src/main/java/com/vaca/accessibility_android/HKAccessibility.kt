@@ -10,7 +10,7 @@ object HKAccessibility {
     @JvmStatic
     var service: HKAccessibilityService? = null
     fun init() {
-        LogUtils.getConfig().globalTag = Config.logTag
+
     }
 
     object Config {

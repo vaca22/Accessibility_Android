@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Accessibility_Android</string>
+    <string name="assists_description">简介\n提示:\n1.若不能使用辅助功能,请重启手机后重试;\n2.请勿开启多个辅助功能，否则会干扰本应用运行</string>
 </resources>
