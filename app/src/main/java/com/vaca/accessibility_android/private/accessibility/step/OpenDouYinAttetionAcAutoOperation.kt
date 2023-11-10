@@ -18,6 +18,65 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
     data class ContactItem(val index:Int,val name:String,val clickNode: AccessibilityNodeInfo)
 
+    data class ChatItem(val name:Int,val content:String)
+
+
+    fun getChatList():ArrayList<ChatItem>{
+        val result= ArrayList<ChatItem>()
+
+        UIOperate.findByTags("androidx.recyclerview.widget.RecyclerView").forEach {
+            //check chile is relativeLayout
+            val chileCount=it.childCount
+            for(i in 0 until chileCount){
+                val child=it.getChild(i)
+                if(child.className=="android.widget.RelativeLayout"){
+                    val childChildCount=child.childCount
+                    for(j in 0 until childChildCount){
+                        val childChild=child.getChild(j)
+                        if(childChild.className=="android.widget.LinearLayout"){
+                            val childChildChildCount=childChild.childCount
+                            for(k in 0 until childChildChildCount){
+                                val childChildChild=childChild.getChild(k)
+                                var content=""
+                                var name=""
+                                if(childChildChild.className=="android.widget.LinearLayout"){
+                                    UIOperate.findByTags("android.widget.TextView",childChildChild).forEach {
+                                        content=it.text.toString()
+                                    }
+                                }else if(childChildChild.className=="android.widget.RelativeLayout"){
+                                    val childChildChildChildCount=childChildChild.childCount
+                                    for(l in 0 until childChildChildChildCount){
+                                        val childChildChildChild=childChildChild.getChild(l)
+                                        if(childChildChildChild.className=="android.widget.ImageView"){
+                                            Log.e("vaca", "img")
+                                            val cds=childChildChildChild.contentDescription
+                                            cds?.let {
+                                                if(it.isNotEmpty()){
+                                                    name=it.toString()
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                if(content.isNotEmpty()&&name.isNotEmpty()){
+                                    val chatItem=ChatItem(name.toInt(),content)
+                                    result.add(chatItem)
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        return result
+    }
+
 
     fun getListName():ArrayList<ContactItem> {
         val result= ArrayList<ContactItem>()
@@ -162,49 +221,6 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
 
 
-
-            UIOperate.findByTags("androidx.recyclerview.widget.RecyclerView").forEach {
-                //check chile is relativeLayout
-                val chileCount=it.childCount
-                for(i in 0 until chileCount){
-                    val child=it.getChild(i)
-                    if(child.className=="android.widget.RelativeLayout"){
-                        val childChildCount=child.childCount
-                        for(j in 0 until childChildCount){
-                            val childChild=child.getChild(j)
-                            if(childChild.className=="android.widget.LinearLayout"){
-                                val childChildChildCount=childChild.childCount
-                                for(k in 0 until childChildChildCount){
-                                    val childChildChild=childChild.getChild(k)
-                                    if(childChildChild.className=="android.widget.LinearLayout"){
-                                        UIOperate.findByTags("android.widget.TextView",childChildChild).forEach {
-                                            Log.e("vaca", "text=${it.text.toString()}")
-                                        }
-                                    }else if(childChildChild.className=="android.widget.RelativeLayout"){
-                                        val childChildChildChildCount=childChildChild.childCount
-                                        for(l in 0 until childChildChildChildCount){
-                                            val childChildChildChild=childChildChild.getChild(l)
-                                            if(childChildChildChild.className=="android.widget.ImageView"){
-                                                Log.e("vaca", "img")
-                                                val cds=childChildChildChild.contentDescription
-                                                cds?.let {
-                                                    if(it.isNotEmpty()){
-                                                        Log.e("vaca", "cds=${cds}")
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-
-            }
 
 
 
