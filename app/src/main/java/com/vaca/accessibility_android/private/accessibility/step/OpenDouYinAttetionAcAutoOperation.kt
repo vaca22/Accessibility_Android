@@ -205,7 +205,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                     StepManager.execute(
                         this::class.java,
                         Step.STEP_4,
-                        3500,
+                        2500,
                         data = step.data,
                         content = step.content
                     )
