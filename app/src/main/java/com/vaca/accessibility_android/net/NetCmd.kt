@@ -7,14 +7,14 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 object NetCmd {
-    private val client = OkHttpClient();
-    fun postString(content:String): String {
-        //set time out 20s
 
-        val chatGpt=client.newBuilder().connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-            .build()
+    private val chatGpt=OkHttpClient().newBuilder().connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .build()
+
+
+    fun postString(content:String): String {
         val url="https://vaca.vip/asr/asr"
         val requestBody: RequestBody = content.toRequestBody("application/octet-stream".toMediaTypeOrNull())
         val request: Request = Request.Builder()

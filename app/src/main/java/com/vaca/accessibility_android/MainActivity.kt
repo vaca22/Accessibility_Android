@@ -35,14 +35,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dataScope.launch {
-           val s= NetCmd.postString("宝安公园好玩吗")
+            val s = NetCmd.postString("宝安公园好玩吗")
             Log.e("vaca", "onCreate: $s")
         }
 
 
 
 
-        HKAccessibility.ListenerManager.globalListeners.add(object :  HKAccessibility.ListenerManager.ServiceListener {
+        HKAccessibility.ListenerManager.globalListeners.add(object :
+            HKAccessibility.ListenerManager.ServiceListener {
             override fun onServiceConnected(service: HKAccessibilityService) {
                 StepManager.isStop = false
                 StepManager.execute(
@@ -54,12 +55,13 @@ class MainActivity : AppCompatActivity() {
                         keyworldList = null,
                         privateContent = null,
                         xiansuoCount = 5,
-                        fansCount =6,
+                        fansCount = 6,
                         mainTitle = "关注获客"
                     ),
                     content = this@MainActivity
                 )
             }
+
             override fun onUnbind() {
 
             }
@@ -67,15 +69,15 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.barrierFree.setOnClickListener {
-                Log.e("TAG", "onCreate:初始化")
-                try {
-                    startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                    Log.e("TAG", "onCreate:初始化  try")
-                } catch (e: Exception) {
-                    Log.e("TAG", "onCreate:初始化  catch")
-                    startActivity(Intent(Settings.ACTION_SETTINGS))
-                    e.printStackTrace()
-                }
+            Log.e("TAG", "onCreate:初始化")
+            try {
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                Log.e("TAG", "onCreate:初始化  try")
+            } catch (e: Exception) {
+                Log.e("TAG", "onCreate:初始化  catch")
+                startActivity(Intent(Settings.ACTION_SETTINGS))
+                e.printStackTrace()
+            }
         }
 
 
