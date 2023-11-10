@@ -45,7 +45,6 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                                     UIOperate.findByTags("android.widget.TextView",childChildChild).forEach {
                                         if(it.text.isNotEmpty()){
                                             content=it.text.toString()
-                                            Log.e("vaca", "content=$content")
                                         }
                                     }
                                 }else if(childChildChild.className=="android.widget.RelativeLayout"){
