@@ -26,7 +26,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
     data class ChatItem(val name: String, val content: String)
 //"微健刘工刘世伟"  "黄健桓"
-    var targetName = "黄健桓"
+    var targetName = "不休 杨天龙"
     val dataScope = CoroutineScope(Dispatchers.IO)
 
 
