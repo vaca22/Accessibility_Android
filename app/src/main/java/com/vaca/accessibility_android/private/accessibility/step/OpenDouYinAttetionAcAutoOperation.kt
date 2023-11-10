@@ -25,8 +25,8 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
     data class ContactItem(val index: Int, val name: String, val clickNode: AccessibilityNodeInfo)
 
     data class ChatItem(val name: String, val content: String)
-
-    var targetName = "微健刘工刘世伟"
+//"微健刘工刘世伟"  "黄健桓"
+    var targetName = "黄健桓"
     val dataScope = CoroutineScope(Dispatchers.IO)
 
 
