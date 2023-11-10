@@ -17,17 +17,27 @@ import com.haohuoke.homeindexmodule.ui.accessibility.data.IPO3MainAcData
 import com.haohuoke.homeindexmodule.ui.accessibility.step.OpenDouYinAttetionAcAutoOperation
 import com.haohuoke.homeindexmodule.ui.accessibility.step.Step
 import com.vaca.accessibility_android.databinding.ActivityMainBinding
+import com.vaca.accessibility_android.net.NetCmd
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    val dataScope = CoroutineScope(Dispatchers.IO)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        dataScope.launch {
+           val s= NetCmd.postString("宝安公园好玩吗")
+            Log.e("vaca", "onCreate: $s")
+        }
 
 
 
