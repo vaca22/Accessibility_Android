@@ -27,17 +27,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    val dataScope = CoroutineScope(Dispatchers.IO)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataScope.launch {
-            val s = NetCmd.postString("宝安公园好玩吗")
-            Log.e("vaca", "onCreate: $s")
-        }
 
 
 

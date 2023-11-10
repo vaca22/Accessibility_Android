@@ -11,7 +11,13 @@ import com.haohuoke.core.step.StepCollector
 import com.haohuoke.core.step.StepImpl
 import com.haohuoke.core.step.StepManager
 import com.haohuoke.core.ui.UIOperate
+import com.tencent.bugly.proguard.s
 import com.vaca.accessibility_android.MainApp
+import com.vaca.accessibility_android.net.NetCmd
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class OpenDouYinAttetionAcAutoOperation : StepImpl {
@@ -19,6 +25,9 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
     data class ContactItem(val index: Int, val name: String, val clickNode: AccessibilityNodeInfo)
 
     data class ChatItem(val name: String, val content: String)
+
+    var targetName = "哈哈哈"
+    val dataScope = CoroutineScope(Dispatchers.IO)
 
 
     fun getChatList(): ArrayList<ChatItem> {
@@ -214,7 +223,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             for (i in 0 until count) {
                 val name = result[i]
                 Log.e("vaca", "name=${name.name} index=${name.index}")
-                if (name.name == "全海燕") {
+                if (name.name == targetName) {
                     name.clickNode.click()
                     StepManager.execute(
                         this::class.java,
@@ -238,8 +247,28 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             result.forEach {
                 Log.e("vaca", "name=${it.name} content=${it.content}")
             }
+            if (!result.last().name.contains(targetName)) {
+                StepManager.execute(
+                    this::class.java,
+                    Step.STEP_4,
+                    5000,
+                    data = step.data
+                )
+                return@next
+            }
+            var sendText = "你好"
+            val job = dataScope.launch {
+                try {
+                    sendText = NetCmd.postString(result.last().content)
+                } catch (e: Exception) {
 
-            val sendText = "你好"
+                }
+            }
+            runBlocking {
+                job.join()
+            }
+
+
 
             UIOperate.findByTags("android.widget.EditText").forEach {
                 val bundle = Bundle()
@@ -248,21 +277,12 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                     sendText
                 )
                 it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, bundle)
-                if (it.text.isNotEmpty() && it.text.toString() == sendText) {
-                    StepManager.execute(
-                        this::class.java,
-                        Step.STEP_5,
-                        2500,
-                        data = step.data
-                    )
-                } else {
-                    StepManager.execute(
-                        this::class.java,
-                        Step.STEP_4,
-                        2500,
-                        data = step.data
-                    )
-                }
+                StepManager.execute(
+                    this::class.java,
+                    Step.STEP_5,
+                    2500,
+                    data = step.data
+                )
             }
 
             return@next
@@ -275,7 +295,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                     it.click()
                     StepManager.execute(
                         this::class.java,
-                        Step.STEP_6,
+                        Step.STEP_4,
                         2500,
                         data = step.data
                     )
