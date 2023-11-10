@@ -3,6 +3,7 @@ package com.haohuoke.homeindexmodule.ui.accessibility.step
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
@@ -18,7 +19,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
     data class ContactItem(val index:Int,val name:String,val clickNode: AccessibilityNodeInfo)
 
-    data class ChatItem(val name:Int,val content:String)
+    data class ChatItem(val name:String,val content:String)
 
 
     fun getChatList():ArrayList<ChatItem>{
@@ -35,20 +36,23 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                         val childChild=child.getChild(j)
                         if(childChild.className=="android.widget.LinearLayout"){
                             val childChildChildCount=childChild.childCount
+                            var content=""
+                            var name=""
                             for(k in 0 until childChildChildCount){
                                 val childChildChild=childChild.getChild(k)
-                                var content=""
-                                var name=""
+
                                 if(childChildChild.className=="android.widget.LinearLayout"){
                                     UIOperate.findByTags("android.widget.TextView",childChildChild).forEach {
-                                        content=it.text.toString()
+                                        if(it.text.isNotEmpty()){
+                                            content=it.text.toString()
+                                            Log.e("vaca", "content=$content")
+                                        }
                                     }
                                 }else if(childChildChild.className=="android.widget.RelativeLayout"){
                                     val childChildChildChildCount=childChildChild.childCount
                                     for(l in 0 until childChildChildChildCount){
                                         val childChildChildChild=childChildChild.getChild(l)
                                         if(childChildChildChild.className=="android.widget.ImageView"){
-                                            Log.e("vaca", "img")
                                             val cds=childChildChildChild.contentDescription
                                             cds?.let {
                                                 if(it.isNotEmpty()){
@@ -60,12 +64,12 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
                                 }
 
-                                if(content.isNotEmpty()&&name.isNotEmpty()){
-                                    val chatItem=ChatItem(name.toInt(),content)
-                                    result.add(chatItem)
-                                }
-                            }
 
+                            }
+                            if(content.isNotEmpty()&&name.isNotEmpty()){
+                                val chatItem=ChatItem(name,content)
+                                result.add(chatItem)
+                            }
                         }
                     }
                 }
@@ -202,7 +206,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                     StepManager.execute(
                         this::class.java,
                         Step.STEP_4,
-                        2500,
+                        3500,
                         data = step.data,
                         content = step.content
                     )
@@ -217,19 +221,10 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
         }.next(Step.STEP_4) { step ->
             Log.e("vaca", "step4")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            val result=getChatList()
+            result.forEach{
+                Log.e("vaca", "name=${it.name} content=${it.content}")
+            }
 
             return@next
 
