@@ -1,26 +1,18 @@
 package com.vaca.accessibility_android
 
-import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.haohuoke.core.HKAccessibility
 import com.haohuoke.core.HKAccessibilityService
 import com.haohuoke.core.step.StepManager
 import com.haohuoke.homeindexmodule.ui.accessibility.data.IPO3MainAcData
-import com.haohuoke.homeindexmodule.ui.accessibility.step.OpenDouYinAttetionAcAutoOperation
+import com.vaca.accessibility_android.private.accessibility.step.OpenDouYinAttetionAcAutoOperation
 import com.haohuoke.homeindexmodule.ui.accessibility.step.Step
 import com.vaca.accessibility_android.databinding.ActivityMainBinding
-import com.vaca.accessibility_android.net.NetCmd
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {

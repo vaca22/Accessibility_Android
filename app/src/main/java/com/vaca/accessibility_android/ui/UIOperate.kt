@@ -70,7 +70,18 @@ object UIOperate {
 		}
 		return nodeList
 	}
-	
+
+	fun getAllNodes2(): ArrayList<AccessibilityNodeInfo> {
+		val nodeList = arrayListOf<AccessibilityNodeInfo>()
+		HKAccessibility.service?.windows?.forEach {
+			it.root?.let {
+				getNodes(it, nodeList)
+			}
+		}
+		return nodeList
+	}
+
+
 	fun getNodes(parentNode: AccessibilityNodeInfo): ArrayList<AccessibilityNodeInfo> {
 		val nodeList = arrayListOf<AccessibilityNodeInfo>()
 		getNodes(parentNode, nodeList)

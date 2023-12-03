@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/app_name"
-    android:packageNames="com.example.android.apis,com.tencent.mm,com.tencent.mobileqq,com.ss.android.ugc.aweme"
+    android:packageNames="com.example.android.apis,com.tencent.mm,com.tencent.mobileqq,com.ss.android.ugc.aweme,com.smile.gifmaker"
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFlags="flagDefault"
     android:accessibilityFeedbackType="feedbackAllMask"

@@ -1,4 +1,4 @@
-package com.haohuoke.homeindexmodule.ui.accessibility.step
+package com.vaca.accessibility_android.private.accessibility.step
 
 
 import android.content.Intent
@@ -11,7 +11,8 @@ import com.haohuoke.core.step.StepCollector
 import com.haohuoke.core.step.StepImpl
 import com.haohuoke.core.step.StepManager
 import com.haohuoke.core.ui.UIOperate
-import com.tencent.bugly.proguard.s
+import com.haohuoke.homeindexmodule.ui.accessibility.data.IPO3MainAcData
+import com.haohuoke.homeindexmodule.ui.accessibility.step.Step
 import com.vaca.accessibility_android.MainApp
 import com.vaca.accessibility_android.net.NetCmd
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +27,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
     data class ChatItem(val name: String, val content: String)
 //"微健刘工刘世伟"  "黄健桓"
-    var targetName = "不休 杨天龙"
+    var targetName = "小豆（小助手）"
     val dataScope = CoroutineScope(Dispatchers.IO)
 
 
@@ -173,7 +174,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
 
             val intent =
-                MainApp.application.packageManager.getLaunchIntentForPackage("com.tencent.mm")
+                MainApp.application.packageManager.getLaunchIntentForPackage("com.smile.gifmaker")
             if (intent != null) {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 MainApp.application.startActivity(intent)
@@ -190,45 +191,13 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             return@next
         }.next(Step.STEP_2) { step ->
             Log.e("vaca", "step2")
-
-            val more = UIOperate.findByText("更多功能按钮")
-            val count = more.size
-            if (count > 0) {
-                StepManager.execute(
-                    this::class.java,
-                    Step.STEP_3,
-                    2500,
-                    data = step.data,
-                    content = step.content
-                )
-                return@next
-            }
-
-            UIOperate.back()
-            StepManager.execute(
-                this::class.java,
-                Step.STEP_2,
-                2500,
-                data = step.data,
-                content = step.content
-            )
-            return@next
-        }.next(Step.STEP_3) { step ->
-            Log.e("vaca", "step3")
-
-            val result = getListName()
-
-            val count = result.size
-            Log.e("vaca", "count=$count")
-            for (i in 0 until count) {
-                val name = result[i]
-                Log.e("vaca", "name=${name.name} index=${name.index}")
-                if (name.name == targetName) {
-                    name.clickNode.click()
+            UIOperate.findByText("查找").forEach{
+                if(it.isClickable){
+                    it.click()
                     StepManager.execute(
                         this::class.java,
-                        Step.STEP_4,
-                        2500,
+                        Step.STEP_3,
+                        1500,
                         data = step.data,
                         content = step.content
                     )
@@ -238,75 +207,105 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
 
             return@next
+        }.next(Step.STEP_3) { step ->
+            Log.e("vaca", "step3")
+            UIOperate.findByTags("android.widget.EditText").forEach {
+                val arguments2 = Bundle()
+                arguments2.putCharSequence(
+                    AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
+                     "好吃"
+                )
+                it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments2)
+
+                StepManager.execute(
+                    this::class.java,
+                    Step.STEP_4,
+                    2500,
+                    data = step.data,
+                    content = step.content
+                )
+                return@next
+            }
+
+
+            return@next
 
 
         }.next(Step.STEP_4) { step ->
             Log.e("vaca", "step4")
 
-            val result = getChatList()
-            result.forEach {
-                Log.e("vaca", "name=${it.name} content=${it.content}")
-            }
-            if (!result.last().name.contains(targetName)) {
-                StepManager.execute(
-                    this::class.java,
-                    Step.STEP_4,
-                    5000,
-                    data = step.data
-                )
-                return@next
-            }
-            var sendText = "你好"
-            val job = dataScope.launch {
-                try {
-                    sendText = NetCmd.postString(result.last().content)
-                } catch (e: Exception) {
 
+            UIOperate.findById("com.smile.gifmaker:id/right_button").forEach {
+                if(it.isClickable){
+                    if(it.text=="搜索"){
+                        it.click()
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_5,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
                 }
             }
-            runBlocking {
-                job.join()
-            }
 
-
-
-            UIOperate.findByTags("android.widget.EditText").forEach {
-                val bundle = Bundle()
-                bundle.putCharSequence(
-                    AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
-                    sendText
-                )
-                it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, bundle)
-                StepManager.execute(
-                    this::class.java,
-                    Step.STEP_5,
-                    2500,
-                    data = step.data
-                )
-            }
 
             return@next
 
 
         }.next(Step.STEP_5) { step ->
             Log.e("vaca", "step5")
-            UIOperate.findByTags("android.widget.Button").forEach {
-                if (it.text.isNotEmpty() && it.text.toString() == "发送") {
+            UIOperate.findById("com.smile.gifmaker:id/tab_filter_image").forEach {
+                if(it.isClickable){
                     it.click()
                     StepManager.execute(
                         this::class.java,
-                        Step.STEP_4,
+                        Step.STEP_6,
                         2500,
-                        data = step.data
+                        data = step.data,
+                        content = step.content
                     )
+                    return@next
                 }
+
             }
+
 
             return@next
         }.next(Step.STEP_6) { step ->
             Log.e("vaca", "step6")
 
+            UIOperate.findByTags("android.widget.TextView").forEach {
+                if(it.text=="请选择"){
+                    if(it.isClickable){
+                        it.click()
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_7,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
+                }
+            }
+
             return@next
+        }.next(Step.STEP_7) { step ->
+            Log.e("vaca", "step7")
+
+            UIOperate.getAllNodes2().forEach {
+
+                   it.text?.let {
+                       Log.e("vaca", "step11: $it")
+                   }
+                it.contentDescription?.let {
+                    Log.e("vaca", "step11: $it")
+                }
+            }
         }
     }
 }
