@@ -308,6 +308,13 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             val delay = UIOperate.gesture(
                 floatArrayOf(x, startY), floatArrayOf(x, endY), 0, 300L
             )
+            StepManager.execute(
+                this::class.java,
+                Step.STEP_9,
+                2500,
+                data = step.data,
+                content = step.content
+            )
 
         }.next(Step.STEP_Scoll_Comment) { step ->
             Log.e("vaca", "step_Scoll_Comment")
