@@ -200,7 +200,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
         }.next(Step.STEP_9) { step ->
             Log.e("vaca", "step9")
-            UIOperate.findById("com.smile.gifmaker:id/comment_count_view").forEach {
+            UIOperate.findByTags("android.widget.TextView").forEach {
                 if (it.text == "抢首评") {
                     StepManager.execute(
                         this::class.java,
