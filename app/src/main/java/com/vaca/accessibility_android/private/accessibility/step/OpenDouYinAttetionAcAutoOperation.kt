@@ -199,6 +199,20 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
         }.next(Step.STEP_9) { step ->
             Log.e("vaca", "step9")
+            UIOperate.findById("com.smile.gifmaker:id/comment_count_view").forEach {
+                if (it.text == "抢首评") {
+                    StepManager.execute(
+                        this::class.java,
+                        Step.STEP_Scoll_Video,
+                        2500,
+                        data = step.data,
+                        content = step.content
+                    )
+                    return@next
+                }
+            }
+
+
             UIOperate.findById("com.smile.gifmaker:id/comment_icon").forEach {
                 if (it.parent.className == "android.widget.FrameLayout" && it.parent.isClickable) {
                     it.parent.click()
@@ -250,6 +264,14 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             }
 
         }.next(Step.STEP_12) { step ->
+            Log.e("vaca", "step11")
+
+
+        }.next(Step.STEP_Scoll_Video) { step ->
+            Log.e("vaca", "step
+
+
+        }.next(Step.STEP_Scoll_Comment) { step ->
             Log.e("vaca", "step11")
 
 
