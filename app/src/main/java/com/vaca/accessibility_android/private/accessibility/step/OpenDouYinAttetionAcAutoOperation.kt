@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
+import com.blankj.utilcode.util.ScreenUtils
 import com.haohuoke.core.ext.*
 import com.haohuoke.core.step.StepCollector
 import com.haohuoke.core.step.StepImpl
@@ -184,7 +185,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                             StepManager.execute(
                                 this::class.java,
                                 Step.STEP_9,
-                                2500,
+                                3500,
                                 data = step.data,
                                 content = step.content
                             )
@@ -255,7 +256,28 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                         UIOperate.findByTags("android.widget.TextView", child1).forEach {
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/comment") {
                                 val text = it.text.toString()
-                                Log.e("vaca", text)
+                                Log.e("vaca","content"+ text)
+                            }
+//                            com.smile.gifmaker:id/name
+                            if (it.viewIdResourceName == "com.smile.gifmaker:id/name") {
+                                val text = it.text.toString()
+                                Log.e("vaca","name"+ text)
+                            }
+                        }
+                        UIOperate.findByTags("android.widget.ImageView", child1).forEach {
+                            if (it.viewIdResourceName == "com.smile.gifmaker:id/avatar") {
+                                if(it.isClickable){
+                                    it.click()
+                                    StepManager.execute(
+                                        this::class.java,
+                                        Step.STEP_12,
+                                        2500,
+                                        data = step.data,
+                                        content = step.content
+                                    )
+                                    return@next
+
+                                }
                             }
                         }
                     }
@@ -268,13 +290,25 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
 
         }.next(Step.STEP_Scoll_Video) { step ->
-            Log.e("vaca", "step
-
+            Log.e("vaca", "step_Scoll_Video")
+            val x = ScreenUtils.getAppScreenWidth() / 2F
+            val distance = ScreenUtils.getAppScreenHeight() / 2F
+            val startY = distance + distance / 2F
+            val endY = distance - distance / 2F
+            val delay = UIOperate.gesture(
+                floatArrayOf(x, startY), floatArrayOf(x, endY), 0, 300L
+            )
 
         }.next(Step.STEP_Scoll_Comment) { step ->
-            Log.e("vaca", "step11")
+            Log.e("vaca", "step_Scoll_Comment")
 
-
+            val x = ScreenUtils.getAppScreenWidth() / 2F
+            val distance = ScreenUtils.getAppScreenHeight() / 2F
+            val startY = distance + distance / 2F
+            val endY = distance - distance / 2F
+            val delay = UIOperate.gesture(
+                floatArrayOf(x, startY), floatArrayOf(x, endY), 0, 300L
+            )
         }
     }
 }
