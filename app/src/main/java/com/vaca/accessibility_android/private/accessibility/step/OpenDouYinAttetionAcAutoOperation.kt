@@ -153,7 +153,14 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                     }
                 }
             }
-
+            StepManager.execute(
+                this::class.java,
+                Step.STEP_5,
+                2500,
+                data = step.data,
+                content = step.content
+            )
+            return@next
             return@next
         }.next(Step.STEP_7) { step ->
             Log.e("vaca", "step7")
@@ -200,8 +207,11 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
         }.next(Step.STEP_9) { step ->
             Log.e("vaca", "step9")
-            UIOperate.findByTags("android.widget.TextView").forEach {
+            UIOperate.findById("com.smile.gifmaker:id/comment_count_view").forEach {
+                val text=it.text.toString()
+                Log.e("vaca","ftgftext"+text)
                 if (it.text == "抢首评") {
+                    Log.e("vaca","ftgftext"+text)
                     StepManager.execute(
                         this::class.java,
                         Step.STEP_Scoll_Video,
