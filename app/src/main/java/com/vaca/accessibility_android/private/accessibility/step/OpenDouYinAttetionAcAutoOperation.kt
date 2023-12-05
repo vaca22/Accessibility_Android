@@ -210,7 +210,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             UIOperate.findById("com.smile.gifmaker:id/comment_count_view").forEach {
                 val text=it.text.toString()
                 Log.e("vaca","ftgftext"+text)
-                if (it.text == "抢首评") {
+                if (it.text.toString().contains("抢首评")) {
                     Log.e("vaca","ftgftext"+text)
                     StepManager.execute(
                         this::class.java,
