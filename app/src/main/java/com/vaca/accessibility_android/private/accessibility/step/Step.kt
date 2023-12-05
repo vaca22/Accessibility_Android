@@ -1,4 +1,4 @@
-package com.haohuoke.homeindexmodule.ui.accessibility.step
+package com.vaca.accessibility_android.private.accessibility.step
 
 object Step {
     const val STEP_Douyin_ID = 8002
@@ -23,6 +23,8 @@ object Step {
 
     /** */
     const val STEP_10 = 10
+    const val STEP_11 = 11
+    const val STEP_12 = 12
 
     /** */
     const val STEP_20 = 20

@@ -11,7 +11,7 @@ import com.haohuoke.core.HKAccessibilityService
 import com.haohuoke.core.step.StepManager
 import com.haohuoke.homeindexmodule.ui.accessibility.data.IPO3MainAcData
 import com.vaca.accessibility_android.private.accessibility.step.OpenDouYinAttetionAcAutoOperation
-import com.haohuoke.homeindexmodule.ui.accessibility.step.Step
+import com.vaca.accessibility_android.private.accessibility.step.Step
 import com.vaca.accessibility_android.databinding.ActivityMainBinding
 import java.lang.Exception
 
