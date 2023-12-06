@@ -281,8 +281,13 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                                 Log.e("vaca", "name" + text)
                             }
                         }
-                        UIOperate.findByTags("android.widget.ImageView", child1).forEach {
-                            if (it.viewIdResourceName == "com.smile.gifmaker:id/avatar") {
+                        UIOperate.findByTags("android.view.View", child1).forEach {
+                            if (it.viewIdResourceName == "com.smile.gifmaker:id/comment_author_tag") {
+                               //is author
+                            }
+                        }
+                        UIOperate.findByTags("android.view.View", child1).forEach {
+                            if (it.viewIdResourceName == "com.smile.gifmaker.comment_detail:id/comment_reply") {
                                 if (it.isClickable) {
                                     it.click()
                                     StepManager.execute(
@@ -303,24 +308,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             }
 
         }.next(Step.STEP_12) { step ->
-            Log.e("vaca", "step11")
-            UIOperate.findById("com.smile.gifmaker:id/send_message_small_icon").forEach {
-                if (it.isClickable) {
-                    it.click()
-                    StepManager.execute(
-                        this::class.java,
-                        Step.STEP_13,
-                        2500,
-                        data = step.data,
-                        content = step.content
-                    )
-                    return@next
-                }
-            }
-
-
-        }.next(Step.STEP_13) { step ->
-            Log.e("vaca", "step_13")
+            Log.e("vaca", "step12")
             UIOperate.findByTags("android.widget.EditText").forEach {
                 val arguments2 = Bundle()
                 arguments2.putCharSequence(
@@ -331,7 +319,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
                 StepManager.execute(
                     this::class.java,
-                    Step.STEP_14,
+                    Step.STEP_13,
                     2500,
                     data = step.data,
                     content = step.content
@@ -339,14 +327,14 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                 return@next
             }
 
-        }.next(Step.STEP_14) { step ->
-            Log.e("vaca", "step_14")
-            UIOperate.findById("com.smile.gifmaker:id/send_btn").forEach {
-                if (it.isClickable) {
+        }.next(Step.STEP_13) { step ->
+            Log.e("vaca", "step_13")
+            UIOperate.findById("com.smile.gifmaker:id/finish_button").forEach {
+                if(it.isClickable){
                     it.click()
                     StepManager.execute(
                         this::class.java,
-                        Step.STEP_15,
+                        Step.STEP_14,
                         2500,
                         data = step.data,
                         content = step.content
@@ -356,26 +344,14 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             }
 
 
+        }.next(Step.STEP_14) { step ->
+            Log.e("vaca", "step_14")
+
+
+
         }.next(Step.STEP_15) { step ->
             Log.e("vaca", "step_15")
-            UIOperate.findById("com.smile.gifmaker:id/tabs_panel_full").forEach {
-                StepManager.execute(
-                    this::class.java,
-                    Step.STEP_11,
-                    2500,
-                    data = step.data,
-                    content = step.content
-                )
-                return@next
-            }
-            UIOperate.back()
-            StepManager.execute(
-                this::class.java,
-                Step.STEP_15,
-                2500,
-                data = step.data,
-                content = step.content
-            )
+
 
         }.next(Step.STEP_Scoll_Video) { step ->
             Log.e("vaca", "step_Scoll_Video")
