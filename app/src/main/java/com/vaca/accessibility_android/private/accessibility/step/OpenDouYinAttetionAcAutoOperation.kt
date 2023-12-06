@@ -228,17 +228,20 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             }
 
 
-            UIOperate.findById("com.smile.gifmaker:id/comment_icon").forEach {
-                if (it.parent.className == "android.widget.FrameLayout" && it.parent.isClickable) {
-                    it.parent.click()
-                    StepManager.execute(
-                        this::class.java,
-                        Step.STEP_10,
-                        2500,
-                        data = step.data,
-                        content = step.content
-                    )
-                    return@next
+            UIOperate.findById("com.smile.gifmaker:id/comment_button").forEach {
+                val centerY = it.getBoundsInScreen().centerY()
+                if (centerY > 0 && centerY < ScreenUtils.getAppScreenHeight()) {
+                    if (it.className == "android.widget.FrameLayout" && it.isClickable) {
+                        it.click()
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_10,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
                 }
             }
 
