@@ -342,7 +342,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                             child1.click()
                             StepManager.execute(
                                 this::class.java,
-                                Step.STEP_14,
+                                Step.STEP_GRAPH1,
                                 2500,
                                 data = step.data,
                                 content = step.content
@@ -353,6 +353,56 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                 }
 
             }
+
+
+        }.next(Step.STEP_GRAPH1) { step ->
+            Log.e("vaca", "step_14")
+            UIOperate.findById("com.smile.gifmaker:id/picture_button").forEach {
+                if(it.isClickable){
+                    it.click()
+                    StepManager.execute(
+                        this::class.java,
+                        Step.STEP_GRAPH2,
+                        2500,
+                        data = step.data,
+                        content = step.content
+                    )
+                    return@next
+                }
+            }
+
+
+
+        }.next(Step.STEP_GRAPH2) { step ->
+            Log.e("vaca", "step_14")
+            UIOperate.findById("com.smile.gifmaker:id/album_view_list").forEach {
+                val count1=it.childCount
+                for(k in 0 until  count1){
+                    val child1=it.getChild(k)
+                    if(child1.viewIdResourceName=="com.smile.gifmaker:id/preview_container"){
+                        val count2=child1.childCount
+                        for(j in 0 until count2){
+                            val child2=child1.getChild(j)
+                            if(child2.viewIdResourceName=="com.smile.gifmaker:id/media_preview"){
+                                if(child2.isClickable){
+                                    child2.click()
+                                    StepManager.execute(
+                                        this::class.java,
+                                        Step.STEP_14,
+                                        2500,
+                                        data = step.data,
+                                        content = step.content
+                                    )
+                                    return@next
+
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
 
 
         }.next(Step.STEP_14) { step ->
