@@ -303,7 +303,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
             }
 
         }.next(Step.STEP_12) { step ->
-            Log.e("vaca", "step11")
+            Log.e("vaca", "step12")
             UIOperate.findById("com.smile.gifmaker:id/send_message_small_icon").forEach {
                 if (it.isClickable) {
                     it.click()
