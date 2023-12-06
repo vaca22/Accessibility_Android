@@ -29,6 +29,8 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
     var targetName = "小豆（小助手）"
     val dataScope = CoroutineScope(Dispatchers.IO)
 
+    val userNameLists= mutableListOf<String>()
+
 
     override fun onImpl(collector: StepCollector) {
         var isSuccessFindUserFace = false
@@ -271,6 +273,7 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                 for (k in 0 until count1) {
                     val child1 = it.getChild(k)
                     if (child1.className == "android.view.ViewGroup" && child1.viewIdResourceName == "com.smile.gifmaker:id/comment_frame") {
+                        var userName=""
                         UIOperate.findByTags("android.widget.TextView", child1).forEach {
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/comment") {
                                 val text = it.text.toString()
@@ -279,25 +282,32 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 //                            com.smile.gifmaker:id/name
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/name") {
                                 val text = it.text.toString()
+                                userName=text
                                 Log.e("vaca", "name" + text)
                             }
                         }
-                        UIOperate.findByTags("android.widget.ImageView", child1).forEach {
-                            if (it.viewIdResourceName == "com.smile.gifmaker:id/avatar") {
-                                if (it.isClickable) {
-                                    it.click()
-                                    StepManager.execute(
-                                        this::class.java,
-                                        Step.STEP_12,
-                                        2500,
-                                        data = step.data,
-                                        content = step.content
-                                    )
-                                    return@next
+                        if(!userNameLists.contains(userName)){
+                            userNameLists.add(userName)
+                            UIOperate.findByTags("android.widget.ImageView", child1).forEach {
+                                if (it.viewIdResourceName == "com.smile.gifmaker:id/avatar") {
+                                    if (it.isClickable) {
+                                        it.click()
 
+                                        StepManager.execute(
+                                            this::class.java,
+                                            Step.STEP_12,
+                                            2500,
+                                            data = step.data,
+                                            content = step.content
+                                        )
+                                        return@next
+
+                                    }
                                 }
                             }
+                            return@next
                         }
+
                     }
 
                 }
