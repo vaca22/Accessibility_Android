@@ -16,8 +16,11 @@ object Step {
     const val STEP_10 = 10
     const val STEP_11 = 11
     const val STEP_12 = 12
-    const val STEP_Scoll_Video = 13
-    const val STEP_Scoll_Comment = 14
+    const val STEP_13 = 13
+    const val STEP_14 = 14
+    const val STEP_15 = 15
+    const val STEP_Scoll_Video = 113
+    const val STEP_Scoll_Comment = 114
 
     /** */
     const val STEP_20 = 20

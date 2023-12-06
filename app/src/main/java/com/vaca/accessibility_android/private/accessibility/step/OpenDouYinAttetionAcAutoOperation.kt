@@ -12,6 +12,7 @@ import com.haohuoke.core.step.StepCollector
 import com.haohuoke.core.step.StepImpl
 import com.haohuoke.core.step.StepManager
 import com.haohuoke.core.ui.UIOperate
+import com.tencent.bugly.proguard.x
 import com.vaca.accessibility_android.MainApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -208,18 +209,21 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
         }.next(Step.STEP_9) { step ->
             Log.e("vaca", "step9")
             UIOperate.findById("com.smile.gifmaker:id/comment_count_view").forEach {
-                val text=it.text.toString()
-                Log.e("vaca","ftgftext"+text)
-                if (it.text.toString().contains("抢首评")) {
-                    Log.e("vaca","ftgftext"+text)
-                    StepManager.execute(
-                        this::class.java,
-                        Step.STEP_Scoll_Video,
-                        2500,
-                        data = step.data,
-                        content = step.content
-                    )
-                    return@next
+                val centerY = it.getBoundsInScreen().centerY()
+                Log.e("vaca", "centerY" + centerY + "  " + ScreenUtils.getAppScreenHeight())
+                if (centerY > 0 && centerY < ScreenUtils.getAppScreenHeight()) {
+                    val text = it.text.toString()
+                    if (it.text.toString().contains("抢首评")) {
+                        Log.e("vaca", "ftgftext" + text)
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_Scoll_Video,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
                 }
             }
 
@@ -266,17 +270,17 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
                         UIOperate.findByTags("android.widget.TextView", child1).forEach {
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/comment") {
                                 val text = it.text.toString()
-                                Log.e("vaca","content"+ text)
+                                Log.e("vaca", "content" + text)
                             }
 //                            com.smile.gifmaker:id/name
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/name") {
                                 val text = it.text.toString()
-                                Log.e("vaca","name"+ text)
+                                Log.e("vaca", "name" + text)
                             }
                         }
                         UIOperate.findByTags("android.widget.ImageView", child1).forEach {
                             if (it.viewIdResourceName == "com.smile.gifmaker:id/avatar") {
-                                if(it.isClickable){
+                                if (it.isClickable) {
                                     it.click()
                                     StepManager.execute(
                                         this::class.java,
@@ -297,7 +301,78 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
 
         }.next(Step.STEP_12) { step ->
             Log.e("vaca", "step11")
+            UIOperate.findById("com.smile.gifmaker:id/send_message_small_icon").forEach {
+                if (it.isClickable) {
+                    it.click()
+                    StepManager.execute(
+                        this::class.java,
+                        Step.STEP_13,
+                        2500,
+                        data = step.data,
+                        content = step.content
+                    )
+                    return@next
+                }
+            }
 
+
+        }.next(Step.STEP_13) { step ->
+            Log.e("vaca", "step_13")
+            UIOperate.findByTags("android.widget.EditText").forEach {
+                val arguments2 = Bundle()
+                arguments2.putCharSequence(
+                    AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
+                    "好吃"
+                )
+                it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments2)
+
+                StepManager.execute(
+                    this::class.java,
+                    Step.STEP_14,
+                    2500,
+                    data = step.data,
+                    content = step.content
+                )
+                return@next
+            }
+
+        }.next(Step.STEP_14) { step ->
+            Log.e("vaca", "step_14")
+            UIOperate.findById("com.smile.gifmaker:id/send_btn").forEach {
+                if (it.isClickable) {
+                    it.click()
+                    StepManager.execute(
+                        this::class.java,
+                        Step.STEP_15,
+                        2500,
+                        data = step.data,
+                        content = step.content
+                    )
+                    return@next
+                }
+            }
+
+
+        }.next(Step.STEP_15) { step ->
+            Log.e("vaca", "step_15")
+            UIOperate.findById("com.smile.gifmaker:id/tabs_panel_full").forEach {
+                StepManager.execute(
+                    this::class.java,
+                    Step.STEP_11,
+                    2500,
+                    data = step.data,
+                    content = step.content
+                )
+                return@next
+            }
+            UIOperate.back()
+            StepManager.execute(
+                this::class.java,
+                Step.STEP_15,
+                2500,
+                data = step.data,
+                content = step.content
+            )
 
         }.next(Step.STEP_Scoll_Video) { step ->
             Log.e("vaca", "step_Scoll_Video")
