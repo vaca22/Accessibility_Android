@@ -3,6 +3,7 @@ package com.vaca.accessibility_android.private.accessibility.step
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Contacts.Intents.UI
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
@@ -305,15 +306,73 @@ class OpenDouYinAttetionAcAutoOperation : StepImpl {
         }.next(Step.STEP_12) { step ->
             Log.e("vaca", "step12")
 
-
+            UIOperate.findById("com.smile.gifmaker:id/tab_text").forEach {
+                if (it.text.toString().contains("作品")) {
+                    if (it.parent.isClickable) {
+                        it.parent.click()
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_13,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
+                }
+            }
+            StepManager.execute(
+                this::class.java,
+                Step.STEP_15,
+                2500,
+                data = step.data,
+                content = step.content
+            )
 
         }.next(Step.STEP_13) { step ->
             Log.e("vaca", "step_13")
 
+            UIOperate.findById("com.smile.gifmaker:id/recycler_view").forEach {
+                val count1 = it.childCount
+                for (k in 0 until count1) {
+                    val child1 = it.getChild(k)
+                    if (child1.className == "android.widget.RelativeLayout") {
+                        if (child1.isClickable) {
+                            child1.click()
+                            StepManager.execute(
+                                this::class.java,
+                                Step.STEP_14,
+                                2500,
+                                data = step.data,
+                                content = step.content
+                            )
+                            return@next
+                        }
+
+                    }
+                }
+
+            }
+
 
         }.next(Step.STEP_14) { step ->
             Log.e("vaca", "step_14")
-
+            UIOperate.findById("com.smile.gifmaker:id/like_button").forEach {
+                val centerY=it.getBoundsInScreen().centerY()
+                if(centerY>0&&centerY<ScreenUtils.getAppScreenHeight()){
+                    if(it.isClickable){
+                        it.click()
+                        StepManager.execute(
+                            this::class.java,
+                            Step.STEP_15,
+                            2500,
+                            data = step.data,
+                            content = step.content
+                        )
+                        return@next
+                    }
+                }
+            }
 
 
         }.next(Step.STEP_15) { step ->
